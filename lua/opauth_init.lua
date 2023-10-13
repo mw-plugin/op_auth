@@ -24,7 +24,7 @@ local function oa_run()
 	local op_pass_key = opauth_conf.cache_key_prefix..'pass_'..oa_remote_addr
 
 	local uri_request_args = ngx.req.get_uri_args()
-	local aes_128_cbc_with_iv = assert(aes:new(opauth_conf.aes_key,nil, aes.cipher(128,"cbc"), {iv=opauth_conf.aes_iv}))
+	local aes_128_cbc_with_iv = assert(aes:new(opauth_conf.aes_key, nil, aes.cipher(128,"ecb"), {iv=opauth_conf.aes_iv}))
 
 	-- local token_de,err = aes_128_cbc_with_iv:decrypt(tokenText)
 	-- ngx.say("token_de de:",token_de, "\n")
