@@ -325,8 +325,8 @@ def getAesConf():
     data = json.loads(content)
 
     gets = [
-        {'name': 'aes_key', 'type': 2, 'ps': 'AES算法KEY值'},
-        {'name': 'aes_iv', 'type': 2, 'ps': 'AES算法IV值'},
+        {'name': 'aes_key', 'type': 2, 'ps': 'AES算法KEY值(16位)'},
+        {'name': 'aes_iv', 'type': 2, 'ps': 'AES算法IV值(16位)'},
         {'name': 'salt', 'type': 2, 'ps': '随机数Salt'},
     ]
 
