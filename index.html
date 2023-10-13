@@ -1,0 +1,30 @@
+
+<style>
+.conf_p span {
+    display: inline-block;
+    margin-right: 10px;
+    width: 100px;
+    text-align: right;
+}
+</style>
+<div class="bt-form">
+	<div class="bt-w-main">
+		<div class="bt-w-menu">
+			<p class="bgw" onclick="pluginService('op_auth');">服务</p>
+			<p onclick="opauth_cache_config();">缓存配置</p>
+			<p onclick="opauth_aes_config();">AES配置</p>
+			<p onclick="opauth_api_config();">API配置</p>
+		</div>
+		<div class="bt-w-con pd15">
+			<div class="soft-man-con"></div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+resetPluginWinWidth(550);
+resetPluginWinHeight(350);
+$.getScript( "/plugins/file?name=op_auth&f=js/op_auth.js", function(){
+	pluginService('op_auth');
+});
+</script>

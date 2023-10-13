@@ -1,0 +1,16 @@
+{
+	"title":"OP鉴权",
+	"tip":"soft",
+	"name":"op_auth",
+	"type":"其他插件",
+	"ps":"OP鉴权-基于OpenResty文件访问鉴权",
+	"install_pre_inspection":true,
+	"shell":"install.sh",
+	"checks":"server/op_auth",
+	"path":"server/op_auth",
+	"author":"midoks",
+	"home":"",
+	"date":"2023-10-9",
+	"pid": "1",
+	"versions": ["1.0"]
+}
