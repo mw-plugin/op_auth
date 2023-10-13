@@ -102,15 +102,31 @@ function opauth_api_config() {
                 case 0:
                     var selected_1 = (rdata[i].value == 1) ? 'selected' : '';
                     var selected_0 = (rdata[i].value == 0) ? 'selected' : '';
-                    ibody = '<select class="bt-input-text mr5" name="' + rdata[i].name + '" style="width: ' + w + 'px;"><option value="1" ' + selected_1 + '>开启</option><option value="0" ' + selected_0 + '>关闭</option></select>'
+                    ibody = '<select class="bt-input-text mr5" name="' + rdata[i].name + '" style="width: ' + w + 'px;">\
+                        <option value="1" ' + selected_1 + '>开启</option>\
+                        <option value="0" ' + selected_0 + '>关闭</option>\
+                    </select>'
                     break;
                 case 1:
                     var selected_1 = (rdata[i].value == 'On') ? 'selected' : '';
                     var selected_0 = (rdata[i].value == 'Off') ? 'selected' : '';
-                    ibody = '<select class="bt-input-text mr5" name="' + rdata[i].name + '" style="width: ' + w + 'px;"><option value="On" ' + selected_1 + '>开启</option><option value="Off" ' + selected_0 + '>关闭</option></select>'
+                    ibody = '<select class="bt-input-text mr5" name="' + rdata[i].name + '" style="width: ' + w + 'px;">\
+                        <option value="On" ' + selected_1 + '>开启</option>\
+                        <option value="Off" ' + selected_0 + '>关闭</option>\
+                    </select>'
                     break;
+                case 3:
+                    var select = rdata[i].select;
+                    ibody = '<select class="bt-input-text mr5" name="' + rdata[i].name + '" style="width: ' + w + 'px;">';
+                    for (var si = 0; si < select.length; si++) {
+                        var selected_0 = (select[si].value == rdata[i].value) ? 'selected' : '';
+                        ibody += '<option value="'+select[si].value+'" ' + selected_0 + '>'+select[si].name+'</option>';
+                    }
+                    ibody += '</select>';
+                    break;
+
             }
-            mlist += '<p><span>' + rdata[i].name + '</span>' + ibody + ', <font>' + rdata[i].ps + '</font></p>'
+            mlist += '<p><span>' + rdata[i].name + '</span>' + ibody + ', <font>' + rdata[i].ps + '</font></p>';
         }
         var con = '<style>.conf_p p{margin-bottom: 2px}</style><div class="conf_p" style="margin-bottom:0">' + mlist + '\
                         <div style="margin-top:10px; padding-right:15px" class="text-right"><button class="btn btn-success btn-sm mr5" onclick="opauth_config()">刷新</button>\
@@ -124,6 +140,7 @@ function opauth_api_config() {
 function submitConf() {
     var data = {
         cache_enable: $("select[name='cache_enable']").val(),
+        cache_key_prefix: $("input[name='cache_key_prefix']").val(),
         redis_ip: $("input[name='redis_ip']").val(),
         redis_port: $("input[name='redis_port']").val(),
         redis_password: $("input[name='redis_password']").val(),
@@ -133,8 +150,11 @@ function submitConf() {
         aes_iv: $("input[name='aes_iv']").val(),
         salt: $("input[name='salt']").val(),
 
+        api_get_enable: $("select[name='api_get_enable']").val(),
+        api_jsonp_name: $("input[name='api_jsonp_name']").val(),
         api_get_path: $("input[name='api_get_path']").val(),
         api_verify_sign: $("input[name='api_verify_sign']").val(),
+        api_validity_period: $("input[name='api_validity_period']").val(),
     };
     opaPost('submit_conf', data, function(rdata){
         var rdata = $.parseJSON(rdata.data);

@@ -143,6 +143,8 @@ def initRedisConf(redis_reload=False):
     init_data['salt'] = 'opauth'
 
     init_data['api_get_path'] = 'opauth_get_token'
+    init_data['api_get_enable'] = 1
+    init_data['api_jsonp_name'] = 'callback'
     init_data['api_verify_sign'] = 'token'
     init_data['api_validity_period'] = 2 * 3600
 
@@ -344,6 +346,14 @@ def getApiConf():
     data = json.loads(content)
 
     gets = [
+        {'name': 'api_get_enable', 'type': 3, 'ps': '获取Token(json,jsonp)或者关闭',
+            'select': [
+                {'value': 0, 'name': "关闭"},
+                {'value': 1, 'name': "JSON"},
+                {'value': 2, 'name': "JSONP"}
+            ],
+         },
+        {'name': 'api_jsonp_name', 'type': 2, 'ps': '开启jsonp有效,jsonp回调名称'},
         {'name': 'api_get_path', 'type': 2, 'ps': '获取Token路径'},
         {'name': 'api_verify_sign', 'type': 2, 'ps': 'Query参数验证名称'},
         {'name': 'api_validity_period', 'type': 2, 'ps': 'API有效期(秒)'},
@@ -364,7 +374,8 @@ def submitConf():
         'cache_enable', 'redis_ip', 'redis_port',
         'redis_password', 'redis_db_index',
         'aes_key', 'aes_iv', 'salt'
-        'api_get_path', 'api_verify_sign', 'api_validity_period'
+        'api_get_path', 'api_verify_sign', 'api_validity_period',
+        'api_get_enable', 'api_jsonp_name'
     ]
     args = getArgs()
 
@@ -375,7 +386,8 @@ def submitConf():
 
     for g in gets:
         if g in args:
-            if g in ['cache_enable', 'redis_port', 'redis_db_index', 'api_validity_period']:
+            if g in ['cache_enable', 'redis_port',
+                     'redis_db_index', 'api_validity_period', 'api_get_enable']:
                 data[g] = int(args[g])
             else:
                 data[g] = args[g]

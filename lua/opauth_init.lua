@@ -55,14 +55,30 @@ local function oa_run()
 	    	ngx.exit(200)
     		return true
     	end
-		local token_aes_b64 = ngx.encode_base64(token_aes)
-	
-		rdata['msg'] = token_aes_b64
-		-- rdata['rand'] = r
-		rdata['code'] = 0
-
-		red:setex(op_key, 100, r)
-	    ngx.say(json.encode(rdata))
+    	local api_get_enable = opauth_conf.api_get_enable
+    	if api_get_enable == 0 then
+    		rdata['code'] = -2
+    		rdata['msg'] = 'no support!'
+    		ngx.say(json.encode(rdata))
+	    	ngx.exit(200)
+    		return true
+		elseif api_get_enable == 2 then
+			local token_aes_b64 = ngx.encode_base64(token_aes)
+			rdata['msg'] = token_aes_b64
+			rdata['code'] = 0
+			red:setex(op_key, 300, r)
+			local jsonp_cb_name = uri_request_args[opauth_conf.api_jsonp_name]
+	    	ngx.say(jsonp_cb_name..'('..json.encode(rdata)..')')
+	    	ngx.exit(200)
+	    	return true
+	    else
+    		local token_aes_b64 = ngx.encode_base64(token_aes)
+    		rdata['msg'] = token_aes_b64
+			-- rdata['rand'] = r
+			rdata['code'] = 0
+			red:setex(op_key, 300, r)
+			ngx.say(json.encode(rdata))
+    	end
 	    ngx.exit(200)
     	return true
    	end
